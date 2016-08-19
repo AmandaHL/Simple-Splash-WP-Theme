@@ -5,29 +5,10 @@
 get_header();?>
 
 
-<div id="content">
-		
-<div id="headline">
-<img class="banner" src="<?php echo get_template_directory_uri();?>/images/banner.png"/>
-</div><!--#headline-->
-<!--<h1>FORM IS FUNCTION</h1>-->
+<div class="content">
+<?php get_template_part('banner');?>
 
-<div id="ddd-box">
-<div id="ddd-images">
-<div class="image-frame one">
-
-<h4><a href="/along/services">design</a></h4>
-</div><div class="image-frame two">
-
-<h4><span class="arrows">&lt;</span><a href="/along/services">development</a><span class="arrows">&gt;</span></h4>
-</div><div class="image-frame three">
-
-<h4><a href="/along/services">direction</a></h4>
-</div>
-</div><!--#ddd-image-->
-</div><!--#ddd-box-->
-
-<div id="midbox-home">
+<div class="home-content">
 <?php if (have_posts()) : while (have_posts()) : the_post(); ?>
 		<div class="page-content" id="post-<?php the_ID(); ?>">
 		
@@ -39,8 +20,26 @@ get_header();?>
 			</div>
 		</div>
 		<?php endwhile; endif; ?>
-</div><!--#midbox-home-->
+</div><!--.home-content-->
 
-</div><!--#content-->
-</div><!--#main-->
+<h2 id="services">SERVICES<a class="up-icon" href="#top"><img src="<?php echo get_template_directory_uri();?>/images/up-icon.svg" alt="Back to Top"></a></h2>
+
+<section class="services">
+<?php get_template_part('services');?>
+</section><!--services-->
+
+<h2 id="projects">PROJECTS<a class="up-icon" href="#top"><img src="<?php echo get_template_directory_uri();?>/images/up-icon.svg" alt="Back to Top"></a></h2>
+
+<section class="recent-work">
+<?php get_template_part('projects');?>
+</section><!--.recent-work-->
+
+<h2 id="about">ABOUT MY WORK<a class="up-icon" href="#top"><img src="<?php echo get_template_directory_uri();?>/images/up-icon.svg" alt="Back to Top"></a></h2>
+
+<section class="about">
+<?php get_template_part('about');?>
+</section><!--.about-->
+
+</div><!--.content-->
+</div><!--.main-->
 <?php get_footer();?>

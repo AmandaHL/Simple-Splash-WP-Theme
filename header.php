@@ -2,7 +2,7 @@
 /**
  * The Header for our theme.
  *
- * Displays all of the <head> section and everything up till <div id="main">
+ * Displays all of the <head> section and everything up till <div class="main">
  *
  */
 ?><!DOCTYPE html>
@@ -43,21 +43,21 @@
 </script>
 
 </head>
-<body>
-<div id="page">
+<body id="top">
+<div class="page">
 <header>
 
-<div id="top">
+<div class="top">
 
-<div id="logo-box">
-<div class="logo"><a href="<?php bloginfo('wpurl');?>"><img src="<?php echo get_template_directory_uri();?>/images/logo.png" alt="Colorado Graphic Design and Web Development"  border="0" /></a></div><!--.logo-->
+<div class="logo-box">
+<div class="logo"><a href="<?php bloginfo('url');?>"><img src="<?php echo get_template_directory_uri();?>/images/logo.png" alt="Colorado Graphic Design and Web Development" /></a></div><!--.logo-->
 <div class="name-tag">
-<img src="<?php echo get_template_directory_uri();?>/images/nametag2.png" alt="Amanda Long Creative Solutions for Print and Web"  border="0" />
+<img src="<?php echo get_template_directory_uri();?>/images/nametag.png" alt="Amanda Long Creative Solutions for Print and Web"  />
 </div><!--.name-tag-->
 <div class="mob-head help-nav">
 <img class="nav-icon" src="<?php echo get_template_directory_uri();?>/images/nav-icon.svg" alt="Mobile Navigation Icon">
 </div><!--help-nav-->
-</div><!--#logo-box-->
+</div><!--.logo-box-->
 
 <nav class="main-navigation">
   <?php wp_nav_menu( array(
@@ -68,6 +68,6 @@
 ?>
 </nav>
 
-</div><!--#top-->
+</div><!--.top-->
 </header>
-<div id="main">
+<div class="main">

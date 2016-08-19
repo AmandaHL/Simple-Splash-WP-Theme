@@ -4,10 +4,6 @@ function wyrx_scripts_method() {
     wp_deregister_script( 'jquery' );
 	wp_register_script( 'jquery', 'http://ajax.googleapis.com/ajax/libs/jquery/1.8.1/jquery.min.js');
 	wp_enqueue_script( 'jquery' );
-	wp_register_script( 'jqueryRotate', get_template_directory_uri() . '/js/jQueryRotate.2.2.js' , array ( 'jquery'), '1.0', true); 
-	wp_enqueue_script( 'jqueryRotate');
-	wp_register_script( 'jqueryCycle', 'http://malsup.github.io/jquery.cycle.all.js' , array ( 'jquery'), '1.0', true); 
-	wp_enqueue_script( 'jqueryCycle');	
 	wp_register_script( 'signifiedjs', get_template_directory_uri() . '/js/signiScripts.js' , array ( 'jquery'), '1.0', true);
 	wp_enqueue_script( 'signifiedjs' );
 	
@@ -15,10 +11,10 @@ function wyrx_scripts_method() {
 //add thumbnail support
 if ( function_exists( 'add_theme_support' ) ) { 
   add_theme_support( 'post-thumbnails'); 
-  set_post_thumbnail_size( 150, 112, true );
+  set_post_thumbnail_size( 75, 75, true );
 }
 if ( function_exists( 'add_image_size' ) ) {
-    add_image_size( 'works-thumb', 170, 128, true );
+    add_image_size( 'project-thumb', 170, 128, true );
 add_image_size( 'smallthumb', 120, 90, true );
 }
 // do shortcodes
@@ -124,13 +120,13 @@ function works_register() {
 		'publicly_queryable' => true,
 		'show_ui' => true,
 		'query_var' => true,
-		'taxonomies' => array('categories','post_tag'),
+		'taxonomies' => array('category','post_tag'),
 		'rewrite' => true,
 		'capability_type' => 'post',
 		'hierarchical' => true,
 		'menu_position' => null,
 		'has_archive' => true,
-		'supports' => array('title', 'editor' , 'comments', 'excerpt',  'revisions', 'author', 'post-formats','thumbnail')
+		'supports' => array('title', 'editor' , 'comments', 'excerpt', 'revisions', 'author', 'page-attributes', 'post-formats','thumbnail')
 		
 	  ); 
  
