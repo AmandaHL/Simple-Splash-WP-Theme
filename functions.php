@@ -36,109 +36,95 @@ function register_menus() {
 );
 }
 add_action( 'init', 'register_menus' );
-class Menu_With_Description extends Walker_Nav_Menu {
-    function start_el(&$output, $item, $depth, $args) {
-	
-        global $wp_query;
- 
-        $indent = ( $depth ) ? str_repeat( "\t", $depth ) : '';
- 
-        $class_names = $value = '';
- 
-        $classes = empty( $item->classes ) ? array() : (array) $item->classes;
- 
-        $class_names = join( ' ', apply_filters( 'cci-thumb', array_filter( $classes ), $item ) );
-        $class_names = ' class="' . esc_attr( $class_names ) . '"';
- 
-        $output .= $indent . '<li id="menu-item-'. $item->ID . '"' . $value . $class_names .'>';
- 
-        $attributes  = ! empty( $item->attr_title ) ? ' title="'  . esc_attr( $item->attr_title ) .'"' : '';
-        $attributes .= ! empty( $item->target )     ? ' target="' . esc_attr( $item->target     ) .'"' : '';
-        $attributes .= ! empty( $item->xfn )        ? ' rel="'    . esc_attr( $item->xfn        ) .'"' : '';
-        $attributes .= ! empty( $item->url )        ? ' href="'   . esc_attr( $item->url        ) .'"' : '';
- 
-        // get user defined attributes for thumbnail images
-        $attr_defaults = array( 'class' => 'nav_thumb' , 'alt' => esc_attr( $item->attr_title ) , 'title' => esc_attr( $item->attr_title ) );
-        $attr = isset( $args->thumbnail_attr ) ? $args->thumbnail_attr : '';
-        $attr = wp_parse_args( $attr , $attr_defaults );
- 
-        $item_output = $args->before;
- 
-        // thumbnail image output
-        $item_output .= ( isset( $args->thumbnail_link ) && $args->thumbnail_link ) ? '<a' . $attributes . '>' : '';
-        $item_output .= apply_filters( 'menu_item_thumbnail' , ( isset( $args->thumbnail ) && $args->thumbnail ) ? get_the_post_thumbnail( $item->object_id , ( isset( $args->thumbnail_size ) ) ? $args->thumbnail_size : 'thumb' , $attr ) : '' , $item , $args , $depth );
-        $item_output .= ( isset( $args->thumbnail_link ) && $args->thumbnail_link ) ? '</a>' : '';
-        // menu link output
-        $item_output .= '<a'. $attributes .'>';
-        $item_output .= $args->link_before . apply_filters( 'the_title', $item->title, $item->ID ) . $args->link_after;
- 
-        
-        // close menu link anchor
-        $item_output .= '</a>';
-        $item_output .= $args->after;
- 
-        $output .= apply_filters( 'walker_nav_menu_start_el', $item_output, $item, $depth, $args );
-    }
-}
 
-add_filter( 'wp_nav_menu_args' , 'my_add_menu_descriptions' );
-function my_add_menu_descriptions( $args ) {
-    $args['walker'] = new Menu_With_Description;
-    $args['desc_depth'] = 0;
-    $args['thumbnail'] = true;
-    $args['thumbnail_link'] = false;
-    
-    $args['thumbnail_attr'] = array( 
-		
-'class' => 'nav_thumb my_thumb' , 'alt' => 'test' , 'title' => 'test' );
- 
-    return $args;
+//add custom metaboxes using cmb2
+if ( file_exists( dirname( __FILE__ ) . '/cmb2/init.php' ) ) {
+	require_once dirname( __FILE__ ) . '/cmb2/init.php';
+} elseif ( file_exists( dirname( __FILE__ ) . '/CMB2/init.php' ) ) {
+	require_once dirname( __FILE__ ) . '/CMB2/init.php';
+}
+//Home Page Video
+add_action( 'cmb2_admin_init', 'video_embed_register_metabox' );
+function video_embed_register_metabox() {
+$prefix = 'dd_';
+
+$dd_video_embed = new_cmb2_box( array(
+	'id'    => $prefix . 'video_box',
+	'title'  => __( 'Home Page Video', 'cmb2' ),
+	'object_types' => array( 'page'),
+	'show_on_cb' => 'bg_show_if_front_page',
+	'closed'     => true, // true to keep the metabox closed by default
+) );
+$dd_video_embed->add_field( array(
+	'name' => 'Link to Video',
+	'desc' => 'Enter a youtube, twitter, or instagram URL. Supports services listed at <a href="http://codex.wordpress.org/Embeds">http://codex.wordpress.org/Embeds</a>.',
+	'id'   => $prefix . 'home_video',
+	'type' => 'oembed',
+	
+) );
+}
+add_action( 'cmb2_admin_init', 'zf_register_repeatable_group_field_metabox' );
+/**
+ * Hook in and add a metabox to demonstrate repeatable grouped fields
+ */
+function zf_register_repeatable_group_field_metabox() {
+$prefix = 'dd_group_';
+	
+/**
+	 * Repeatable Field Groups
+	 */
+	$cmb_step_group = new_cmb2_box( array(
+		'id'           => $prefix . 'steps',
+		'title'        => __( 'Installation Steps', 'cmb2' ),
+		'object_types' => array( 'page'),
+		'show_on_cb' => 'bg_show_if_front_page',
+		'closed'     => true, // true to keep the metabox closed by default
+	) );
+
+	// $group_field_id is the field id string, so in this case: $prefix . 'demo'
+	$group_field_id = $cmb_step_group->add_field( array(
+		'id'          => 'step_box',
+		'type'        => 'group',
+		'description' => __( 'Use the 4 boxes below to add the Installation Steps. Note: The layout is designed for 4 boxes of content. ' ),
+		'options'     => array(
+			'group_title'   => __( 'Step {#}', 'cmb2' ), // {#} gets replaced by row number
+			/*'add_button'    => __( 'Add Another Box', 'cmb2' ),
+			'remove_button' => __( 'Remove Box', 'cmb2' ),*/
+			'add_button'    => false,
+			'remove_button' => false,
+			'sortable'      => true, // beta
+			'closed'     => true, // true to have the groups closed by default
+		),
+	) );
+
+	/**
+	 * Group fields works the same, except ids only need
+	 * to be unique to the group. Prefix is not needed.
+	 *
+	 * The parent field's id needs to be passed as the first argument.
+	 */
+	$cmb_step_group->add_group_field( $group_field_id, array(
+		'name'       => __( 'Title (Step Number)', 'cmb2' ),
+		'id'         => 'title',
+		'type'       => 'text',
+		// 'repeatable' => true, // Repeatable fields are supported w/in repeatable groups (for most types)
+	) );
+
+	$cmb_step_group->add_group_field( $group_field_id, array(
+		'name'        => __( 'Step Text', 'cmb2' ),
+		'id'          => 'featured-text',
+		'type'        => 'textarea_small',
+	) );
+
+	$cmb_step_group->add_group_field( $group_field_id, array(
+		'name' => __( 'Step Image', 'cmb2' ),
+		'id'   => 'image',
+		'type' => 'file',
+	) );
+
 
 }
 //Add custom post types
-add_action('init', 'works_register');
- 
-function works_register() {
- 
-	$labels = array(
-		'name' => __('Works'),
-		'singular_name' => __('Work'),
-		'add_new' => __('Add New', 'Work'),
-		'add_new_item' => __('Add New Work'),
-		'edit_item' => __('Edit Work Post'),
-		'new_item' => __('New Work Post'),
-		'view_item' => __('View Work Post'),
-		'search_items' => __('Search Works'),
-		'not_found' =>  __('Nothing found'),
-		'not_found_in_trash' => __('Nothing found in Trash'),
-		'parent_item_colon' => ''
-	);
- 
-	$args = array(
-		'labels' => $labels,
-		'public' => true,
-		'publicly_queryable' => true,
-		'show_ui' => true,
-		'query_var' => true,
-		'taxonomies' => array('category','post_tag'),
-		'rewrite' => true,
-		'capability_type' => 'post',
-		'hierarchical' => true,
-		'menu_position' => null,
-		'has_archive' => true,
-		'supports' => array('title', 'editor' , 'comments', 'excerpt', 'revisions', 'author', 'page-attributes', 'post-formats','thumbnail')
-		
-	  ); 
- 
-	register_post_type( 'works' , $args );
-}
+
 //register taxonomies
-register_taxonomy("works-tags", array("works"), array("hierarchical" => true, "label" => "Portfolio Tags", "singular_label" => "Portfolio Tags", "rewrite" => true));
-//allow tag.php to function properly with post types
-function post_type_tags_fix($request) {//allow tag.php to function properly with post types
-    if ( isset($request['tag']) && !isset($request['post_type']) )
-    $request['post_type'] = 'any';
-    return $request;
-}
-add_filter('request', 'post_type_tags_fix');
 ?>

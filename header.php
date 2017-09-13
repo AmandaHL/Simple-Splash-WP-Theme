@@ -21,6 +21,8 @@
 <meta property="og:image" content="<?php echo get_template_directory_uri();?>/images/logo.png" />
 <title><?php wp_title( '|', true, 'right' ); ?></title>
 <link rel="stylesheet" href="<?php bloginfo('stylesheet_url'); ?>" type="text/css" media="screen" />
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lateef" />
+<link href="https://fonts.googleapis.com/css?family=Roboto+Condensed:400,700" rel="stylesheet">
 <link rel="profile" href="http://gmpg.org/xfn/11" />
 <link rel="pingback" href="<?php bloginfo( 'pingback_url' ); ?>" />
 <?php wp_head(); ?>
@@ -41,33 +43,34 @@
   })();
 
 </script>
-
+<script src='https://www.google.com/recaptcha/api.js'></script>
 </head>
 <body id="top">
 <div class="page">
 <header>
 
-<div class="top">
-
-<div class="logo-box">
-<div class="logo"><a href="<?php bloginfo('url');?>"><img src="<?php echo get_template_directory_uri();?>/images/logo.png" alt="Colorado Graphic Design and Web Development" /></a></div><!--.logo-->
-<div class="name-tag">
-<img src="<?php echo get_template_directory_uri();?>/images/nametag.png" alt="Amanda Long Creative Solutions for Print and Web"  />
-</div><!--.name-tag-->
-<div class="mob-head help-nav">
+<div class="navbar">
+<div class="help-nav">
 <img class="nav-icon" src="<?php echo get_template_directory_uri();?>/images/nav-icon.svg" alt="Mobile Navigation Icon">
-</div><!--help-nav-->
-</div><!--.logo-box-->
+</div><!--.help-nav-->
 
 <nav class="main-navigation">
-  <?php wp_nav_menu( array(
+ <?php wp_nav_menu( array(
     'theme_location' => 'main-menu', 
-    'menu_class' => 'topnav', 
-	)
+    'menu_class' => 'topnav'
+)
 );
 ?>
-</nav>
 
+</nav>
+</div><!--navbar-->
+<div class="top">
+<div class="logo-box">
+<div class="logo"><a href="<?php bloginfo('url');?>"><img src="<?php echo get_template_directory_uri();?>/images/logo.png" alt="Decconek Distributing LLC" /></a></div><!--.logo-->
+</div><!--.logo-box-->
+<div class="tagline">
+<h1>Engineered Solution for <br>Brick-to-Deck Connections</h1>
+</div><!--.tagline-->
 </div><!--.top-->
 </header>
 <div class="main">

@@ -1,32 +1,28 @@
 //responsive menu function	
-$('.main-navigation').hide();
+//$('.main-navigation').hide();
 $('.nav-icon').on('click', function(event){
 		event.preventDefault();
 		var slideoutMenu = $('.main-navigation');		
 		slideoutMenu.slideToggle(200);
 });
-$(document).ready(function(){
-$('li.all').addClass('selected');	
-$('li.all a').addClass('active');
-$('.port-filters li').on('click', function(e){
-	$(this).addClass('selected');
-	$(this).children().addClass('active');	
-    $('.works-feed > div').hide();
-    if($(this).hasClass('show')) {
-    $(this).siblings().removeClass('selected');
-    $(this).siblings().children().removeClass('active');
-    $(this).next('li').children().addClass('active');
-      $('.works-feed > div').show();
-    } else if($(this).hasClass('all')) {
-    $(this).siblings().removeClass('selected');
-    $(this).siblings().children().removeClass('active');
-      $('.works-feed > div').show();
-    } else {
-    $(this).siblings().removeClass('selected');
-    $(this).siblings().children().removeClass('active');
-      var categoryId = $(this).data('category');
-      $('div.cat-'+ categoryId).show();
-    }
-    e.preventDefault();
-  })
+// Find all iframes
+var $iframes = $( "iframe" );
+ 
+// Find &#x26; save the aspect ratio for all iframes
+$iframes.each(function () {
+  $( this ).data( "ratio", this.height / this.width )
+    // Remove the hardcoded width &#x26; height attributes
+    .removeAttr( "width" )
+    .removeAttr( "height" );
 });
+ 
+// Resize the iframes when the window is resized
+$( window ).resize( function () {
+  $iframes.each( function() {
+    // Get the parent container&#x27;s width
+    var width = $( this ).parent().width();
+    $( this ).width( width )
+      .height( width * $( this ).data( "ratio" ) );
+  });
+// Resize to fix all iframes on page load.
+}).resize();

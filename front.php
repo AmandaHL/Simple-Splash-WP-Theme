@@ -6,9 +6,14 @@ get_header();?>
 
 
 <div class="content">
-<?php get_template_part('banner');?>
+<section class="hero">
+<div>
+<?php get_template_part('home-video');?>
+</div>
+</section><!--hero-->
+<section id="decconek" class="home-content">
+<h2>Save Time & Labor Costs While Exceeding Brick-to-Deck Construction Requirements</h2>
 
-<div class="home-content">
 <?php if (have_posts()) : while (have_posts()) : the_post(); ?>
 		<div class="page-content" id="post-<?php the_ID(); ?>">
 		
@@ -22,23 +27,23 @@ get_header();?>
 		<?php endwhile; endif; ?>
 </div><!--.home-content-->
 
-<h2 id="services">SERVICES<a class="up-icon" href="#top"><img src="<?php echo get_template_directory_uri();?>/images/up-icon.svg" alt="Back to Top"></a></h2>
 
-<section class="services">
-<?php get_template_part('services');?>
-</section><!--services-->
+<section id="installation" class="installation 4col">
+<h2>Decconek® Lets You More Easily & Cost-Effectively Attach a Code-Compliant Deck</h2>
+<div>
+<?php get_template_part('steps');?>
+</div>
+</section><!--installation-->
 
-<h2 id="projects">PROJECTS<a class="up-icon" href="#top"><img src="<?php echo get_template_directory_uri();?>/images/up-icon.svg" alt="Back to Top"></a></h2>
 
-<section class="recent-work">
-<?php get_template_part('projects');?>
-</section><!--.recent-work-->
+<section class="contact" id="contact">
+<h2>Contact Us for More Information</h2>
+<div>
+<h4>Please contact us using the form below or call <span class="highlight">937-219-0825</span> for a free quote.</h4>
+<?php echo do_shortcode('[si-contact-form form="1"]'); ?>
 
-<h2 id="about">ABOUT MY WORK<a class="up-icon" href="#top"><img src="<?php echo get_template_directory_uri();?>/images/up-icon.svg" alt="Back to Top"></a></h2>
-
-<section class="about">
-<?php get_template_part('about');?>
-</section><!--.about-->
+</div>
+</section><!--contact-->
 
 </div><!--.content-->
 </div><!--.main-->
